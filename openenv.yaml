@@ -1,0 +1,13 @@
+name: support-triage-env
+version: 1.0
+
+entrypoint: env.environment:SupportEnv
+
+observation_model: env.models:Observation
+action_model: env.models:Action
+reward_model: env.models:Reward
+
+tasks:
+  - easy_ticket
+  - medium_ticket
+  - hard_ticket

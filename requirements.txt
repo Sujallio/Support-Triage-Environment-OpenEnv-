@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+pydantic
+openai
+
+# Next Step Train an RL agent (PPO, DQN, etc.) against this environment!
