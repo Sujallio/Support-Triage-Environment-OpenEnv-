@@ -472,6 +472,56 @@ All 10 compliance checks PASS.
 - `MODEL_NAME`: Model to use (default: gpt-4o-mini)
 - `USE_MOCK`: Set to 'true' for mock mode without API
 
+## HuggingFace Spaces Deployment
+
+This environment is deployed and live on HuggingFace Spaces!
+
+### Live API Access
+**URL**: https://Sujall07-support-triage-env.hf.space
+
+### Accessing the Deployed Environment
+
+1. **Interactive API Testing**
+   - Open: https://Sujall07-support-triage-env.hf.space/docs
+   - Uses Swagger UI to test /reset and /step endpoints
+   - No authentication required
+
+2. **Test with /reset Endpoint**
+   ```bash
+   curl https://Sujall07-support-triage-env.hf.space/reset
+   ```
+   Returns initial observation with ticket info
+
+3. **Test with /step Endpoint**
+   ```bash
+   curl -X POST https://Sujall07-support-triage-env.hf.space/step \
+     -H "Content-Type: application/json" \
+     -d '{"action_type": "classify", "value": "high"}'
+   ```
+   Returns observation, reward, done flag, and info
+
+### Environment Variables for Deployment
+- `HF_TOKEN`: HuggingFace API token (for authentication)
+- `OPENAI_API_KEY`: OpenAI API key for inference script (optional)
+- `API_BASE_URL`: Custom API endpoint (default: https://api.openai.com/v1)
+- `MODEL_NAME`: Model selection (default: gpt-4o-mini)
+- `USE_MOCK`: Set to 'true' for mock mode without API calls
+
+### Deployment Logs
+Check Space logs at: https://huggingface.co/spaces/Sujall07/support-triage-env/logs
+
+### Docker Configuration
+The Space uses the included Dockerfile for containerization:
+- Base Image: python:3.10-slim
+- Port: 7860 (HuggingFace Spaces standard)
+- Server: Uvicorn with hot-reload disabled
+
+### Status
+- ✅ Deployed on HF Spaces
+- ✅ API endpoints tested and working
+- ✅ Docker build successful
+- ✅ Ready for hackathon evaluation
+
 ## Next Steps
 
 1. Run local API Server
