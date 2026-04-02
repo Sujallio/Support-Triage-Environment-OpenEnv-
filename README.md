@@ -178,20 +178,28 @@ Episode ends when:
 
 ## Task Difficulty Levels
 
-### Easy Task
-- Objective: Correctly classify and respond
-- Expected Actions: classify then respond
-- Typical Reward: 0.3 to 0.5
+### Easy Task - Classify and Respond
+- **Objective**: Correctly classify and respond to straightforward tickets
+- **Expected Actions**: classify → respond  
+- **Grader**: Points for correct classification (0.5) + appropriate response (0.5)
+- **Typical Reward**: 0.3 to 0.5
 
-### Medium Task
-- Objective: Classify, assign, and respond with category awareness
-- Expected Actions: classify then assign then respond
-- Typical Reward: 0.7 to 1.0
+### Medium Task - Classify, Assign, and Respond
+- **Objective**: Classify ticket priority, route to correct department, send response
+- **Expected Actions**: classify → assign → respond
+- **Grader**: Classification (0.35) + correct department routing (0.35) + response quality (0.30)
+- **Typical Reward**: 0.7 to 1.0
+- **Category-Aware Routing**:
+  - Billing issues → billing department
+  - Technical issues → tech/engineering department
+  - General issues → support/customer service
 
-### Hard Task
-- Objective: Handle noisy inputs and optimize for speed
-- Expected Actions: classify then assign then respond within 3 steps
-- Typical Reward: 1.0 to 1.3
+### Hard Task - Multi-step Noisy Input Resolution with Time Pressure
+- **Objective**: Handle noisy inputs, classify, route, and resolve efficiently
+- **Expected Actions**: classify → assign → respond (within 3 steps for bonus)
+- **Grader**: Noisy classification (0.30) + routing (0.30) + resolution quality (0.25) + efficiency bonus (0.15)
+- **Typical Reward**: 1.0 to 1.3
+- **Efficiency Bonus**: Additional 0.15 for completing in ≤3 steps, scaled down for 4-7 steps
 
 ## Setup Instructions
 
@@ -325,17 +333,21 @@ General      | 0.40            | 0.80            | 1.10
 
 ```
 openenv-support-triage/
-  app.py                    FastAPI server with /reset and /step
-  inference.py              Agent inference with API fallback
-  inference_mock.py         Mock inference without API
+  app.py                    FastAPI server with /reset and /step endpoints
+  inference.py              Agent inference with mandatory Meta Hackathon format
+  inference_mock.py         Mock inference without API (demo mode)
   requirements.txt          Python dependencies
   Dockerfile                Container configuration
-  openenv.yaml              Environment metadata
+  openenv.yaml              Complete environment metadata and task definitions
   README.md                 This file
+  validate_code.py          Format validation checker (10/10 compliance checks)
+  test_format.py            Runtime validation test suite
   env/
     __init__.py            Package initialization
-    environment.py         Core SupportEnv class
-    models.py              Pydantic models
+    environment.py         Core SupportEnv class with noise and penalties
+    models.py              Pydantic models (Observation, Action, Reward)
+    graders.py             Task graders for easy/medium/hard difficulties
+    tasks.py               Task definitions
 ```
 
 ## Environment Configuration
@@ -420,6 +432,45 @@ openenv validate
 - Docker containerization
 - Comprehensive reward shaping
 - Dense feedback for agent learning
+
+## Meta Hackathon Phase 1 Compliance
+
+This environment is fully compliant with Meta Hackathon Phase 1 mandatory requirements:
+
+### Mandatory Output Format
+The inference.py script implements the required stdout format:
+
+```
+[START] task=<task_name> env=<benchmark_name> model=<model_name>
+[STEP] step=<n> action=<type>:<value> reward=<x.xx> done=<true|false> error=<null|message>
+[STEP] step=<n+1> action=<type>:<value> reward=<x.xx> done=<true|false> error=<null|message>
+...
+[END] success=<true|false> steps=<n> rewards=<r1,r2,...,rn>
+```
+
+### Format Validation
+Run format compliance check:
+```bash
+python validate_code.py
+```
+
+This validates:
+- [START] format with task, env, model fields
+- [STEP] format with all required fields (step, action, reward, done, error)
+- [END] format with success, steps, rewards
+- 2-decimal reward formatting
+- Boolean lowercasing (true/false not True/False)
+- No emojis or forbidden symbols
+- Proper stdout buffering and exit codes
+
+All 10 compliance checks PASS.
+
+### Environment Variables Supported
+- `OPENAI_API_KEY`: Your OpenAI API key
+- `HF_TOKEN`: HuggingFace token (preferred over OPENAI_API_KEY)
+- `API_BASE_URL`: Custom API endpoint (default: https://api.openai.com/v1)
+- `MODEL_NAME`: Model to use (default: gpt-4o-mini)
+- `USE_MOCK`: Set to 'true' for mock mode without API
 
 ## Next Steps
 
