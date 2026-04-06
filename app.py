@@ -6,6 +6,7 @@ app = FastAPI()
 env = SupportEnv()
 
 @app.get("/reset")
+@app.post("/reset")
 def reset():
     obs = env.reset()
     return {"observation": obs}
