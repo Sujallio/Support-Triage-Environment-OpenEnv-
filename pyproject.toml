@@ -47,10 +47,10 @@ Documentation = "https://github.com/Sujallio/Support-Triage-Environment-OpenEnv-
 Repository = "https://github.com/Sujallio/Support-Triage-Environment-OpenEnv-.git"
 
 [project.scripts]
-support-triage-server = "app:app"
+support-triage-server = "server.app:app"
 
 [tool.setuptools]
-packages = ["env"]
+packages = ["env", "server"]
 
 [tool.black]
 line-length = 100
