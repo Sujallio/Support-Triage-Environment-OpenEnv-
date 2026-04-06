@@ -1,5 +1,5 @@
 name: support-triage-env
-version: 1.0
+version: "1.0.0"
 description: Customer support ticket triage environment for training RL agents to handle real-world support scenarios
 
 entrypoint: env.environment:SupportEnv
