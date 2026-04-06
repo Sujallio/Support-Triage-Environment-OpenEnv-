@@ -1,9 +1,22 @@
 from fastapi import FastAPI, Body
+from fastapi.responses import JSONResponse
 from env.environment import SupportEnv
 from env.models import Action
 
 app = FastAPI()
 env = SupportEnv()
+
+@app.get("/")
+def root():
+    return JSONResponse({
+        "message": "Support Triage Environment API",
+        "status": "running",
+        "endpoints": {
+            "reset": "GET/POST /reset",
+            "step": "POST /step",
+            "docs": "/docs"
+        }
+    })
 
 @app.get("/reset")
 @app.post("/reset")
