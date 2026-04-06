@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Body
 from env.environment import SupportEnv
 from env.models import Action
 
@@ -11,7 +11,7 @@ def reset():
     return {"observation": obs}
 
 @app.post("/step")
-def step(action: dict):
+def step(action: dict = Body(..., example={"action_type": "classify", "value": "high"})):
     try:
         # Convert dict to Action object
         action_obj = Action(

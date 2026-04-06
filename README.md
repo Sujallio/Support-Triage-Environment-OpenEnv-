@@ -260,12 +260,31 @@ Test Flow:
 2. Execute to see initial observation
 3. Click /step endpoint
 4. Execute with example JSON:
-   ```json
-   {
-     "action_type": "classify",
-     "value": "high"
-   }
-   ```
+
+Example 1: Classify priority
+```json
+{
+  "action_type": "classify",
+  "value": "high"
+}
+```
+
+Example 2: Assign to department
+```json
+{
+  "action_type": "assign",
+  "value": "billing"
+}
+```
+
+Example 3: Send response
+```json
+{
+  "action_type": "respond",
+  "value": "Your issue has been resolved"
+}
+```
+
 5. Observe the returned reward and new observation
 
 ### Step 6: Run Inference Script
