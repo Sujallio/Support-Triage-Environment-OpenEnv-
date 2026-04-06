@@ -37,3 +37,13 @@ def step(action: dict = Body(..., example={"action_type": "classify", "value": "
         return result
     except Exception as e:
         return {"error": str(e), "observation": None, "reward": 0.0, "done": True, "info": {}}
+
+
+def main():
+    """Main entry point for running the server"""
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=7860)
+
+
+if __name__ == "__main__":
+    main()
