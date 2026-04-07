@@ -171,11 +171,14 @@ def main():
     # Calculate success
     success = total_reward > 0.5
     
+    # Get the grade using the appropriate grader
+    grade_score = env.grade(task_name)
+    
     # Format rewards string
     rewards_str = ",".join([f"{r:.2f}" for r in rewards])
     
     # Emit END line (mandatory format)
-    print(f"[END] success={str(success).lower()} steps={step_counter} rewards={rewards_str}")
+    print(f"[END] success={str(success).lower()} steps={step_counter} rewards={rewards_str} grade={grade_score:.4f}")
     sys.stdout.flush()
     
     # Return exit code
