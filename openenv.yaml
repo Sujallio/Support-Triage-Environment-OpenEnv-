@@ -9,7 +9,8 @@ action_model: env.models:Action
 reward_model: env.models:Reward
 
 tasks:
-  - name: easy_ticket
+  - id: easy_task
+    name: easy_ticket
     description: Classify and respond to a straightforward support ticket
     max_steps: 10
     difficulty: easy
@@ -18,9 +19,10 @@ tasks:
     observation_space: ["ticket_id", "message", "customer_type", "previous_actions", "last_action_error"]
     baseline_score: 0.42
     expert_score: 0.99
-    grader: env.graders:grade_easy
+    grader: env.graders:EasyGrader
 
-  - name: medium_ticket
+  - id: medium_task
+    name: medium_ticket
     description: Classify, assign to correct department, and respond to a ticket with some complexity
     max_steps: 10
     difficulty: medium
@@ -29,9 +31,10 @@ tasks:
     observation_space: ["ticket_id", "message", "customer_type", "previous_actions", "last_action_error"]
     baseline_score: 0.42
     expert_score: 0.99
-    grader: env.graders:grade_medium
+    grader: env.graders:MediumGrader
 
-  - name: hard_ticket
+  - id: hard_task
+    name: hard_ticket
     description: Multi-step resolution of noisy or complex support tickets with time pressure
     max_steps: 10
     difficulty: hard
@@ -40,7 +43,7 @@ tasks:
     observation_space: ["ticket_id", "message", "customer_type", "previous_actions", "last_action_error"]
     baseline_score: 0.42
     expert_score: 0.99
-    grader: env.graders:grade_hard
+    grader: env.graders:HardGrader
 
 features:
   - name: multiple_datasets

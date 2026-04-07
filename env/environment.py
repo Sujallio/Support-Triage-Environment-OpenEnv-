@@ -1,6 +1,6 @@
 import random
 from env.models import Observation, Action
-from env.graders import grade_easy, grade_medium, grade_hard
+from env.graders import EasyGrader, MediumGrader, HardGrader
 
 class SupportEnv:
     # Multiple ticket datasets by category
@@ -167,14 +167,18 @@ class SupportEnv:
             task_name = f"{self.category}_ticket"
         
         history = self.state_data.get("history", []) if self.state_data else []
+        state = self.state_data if self.state_data else {}
         
-        # Call the appropriate grader based on task name
+        # Use the appropriate grader class based on task name
         if "easy" in task_name:
-            return grade_easy(history, self.state_data)
+            grader = EasyGrader()
         elif "medium" in task_name:
-            return grade_medium(history, self.state_data)
+            grader = MediumGrader()
         elif "hard" in task_name:
-            return grade_hard(history, self.state_data)
+            grader = HardGrader()
         else:
             # Default to easy grader
-            return grade_easy(history, self.state_data)
+            grader = EasyGrader()
+        
+        # Call grade method with action and state
+        return grader.grade(None, state)
