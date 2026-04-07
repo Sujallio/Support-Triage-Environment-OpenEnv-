@@ -17,7 +17,7 @@ tasks:
     action_space: ["classify:high", "classify:medium", "classify:low", "respond:refund", "respond:troubleshoot", "respond:escalate", "assign:billing", "assign:technical", "assign:general"]
     observation_space: ["ticket_id", "message", "customer_type", "previous_actions", "last_action_error"]
     baseline_score: 0.42
-    expert_score: 1.0
+    expert_score: 0.99
     grader: env.graders:grade_easy
 
   - name: medium_ticket
@@ -28,7 +28,7 @@ tasks:
     action_space: ["classify:high", "classify:medium", "classify:low", "respond:refund", "respond:troubleshoot", "respond:escalate", "assign:billing", "assign:technical", "assign:general"]
     observation_space: ["ticket_id", "message", "customer_type", "previous_actions", "last_action_error"]
     baseline_score: 0.42
-    expert_score: 1.0
+    expert_score: 0.99
     grader: env.graders:grade_medium
 
   - name: hard_ticket
@@ -39,7 +39,7 @@ tasks:
     action_space: ["classify:high", "classify:medium", "classify:low", "respond:refund", "respond:troubleshoot", "respond:escalate", "assign:billing", "assign:technical", "assign:general"]
     observation_space: ["ticket_id", "message", "customer_type", "previous_actions", "last_action_error"]
     baseline_score: 0.42
-    expert_score: 1.0
+    expert_score: 0.99
     grader: env.graders:grade_hard
 
 features:
