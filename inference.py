@@ -219,6 +219,7 @@ def run_task(env, task_name, difficulty_keyword, category):
 def main():
     """
     Main inference loop running 3 tasks (easy, medium, hard) for validation.
+    Uses task names from openenv.yaml: easy_ticket, medium_ticket, hard_ticket
     Implements mandatory format:
     [START] task=... env=... model=...
     [STEP] step=... action=... reward=... done=... error=...
@@ -228,24 +229,25 @@ def main():
     all_grades = []
     
     try:
-        # Run three tasks with different difficulty levels
-        # This ensures at least 3 graders are used as required by validation
-        difficulty_levels = ["easy", "medium", "hard"]
+        # Run three tasks with names matching openenv.yaml definitions
+        # This ensures tasks are recognized by validator
+        tasks = [
+            ("easy_ticket", "easy"),
+            ("medium_ticket", "medium"),
+            ("hard_ticket", "hard")
+        ]
         
-        for difficulty in difficulty_levels:
+        for task_name, difficulty in tasks:
             try:
                 # Initialize environment for this task
                 env = SupportEnv()
                 obs = env.reset()
                 
-                # Get episode metadata
+                # Get episode metadata for context
                 episode_data = env.state()
                 category = episode_data.get("category", "general")
                 
-                # Create task name with difficulty keyword
-                task_name = f"{difficulty}_{category}_ticket"
-                
-                # Run the task
+                # Run the task with the correct task name from openenv.yaml
                 success, grade_score, step_count, rewards = run_task(env, task_name, difficulty, category)
                 
                 # Track results
@@ -258,7 +260,7 @@ def main():
                     all_success = False
                 
             except Exception as e:
-                print(f"[ERROR] Failed to run {difficulty} task: {str(e)}", file=sys.stderr)
+                print(f"[ERROR] Failed to run task {task_name}: {str(e)}", file=sys.stderr)
                 import traceback
                 print(traceback.format_exc(), file=sys.stderr)
                 all_success = False

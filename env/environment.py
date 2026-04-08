@@ -161,6 +161,11 @@ class SupportEnv:
         """
         Compute the grade for the current episode using the appropriate grader.
         
+        Task name mapping (from openenv.yaml):
+        - easy_ticket -> EasyGrader
+        - medium_ticket -> MediumGrader  
+        - hard_ticket -> HardGrader
+        
         Returns a score strictly between 0 and 1.
         """
         if task_name is None:
@@ -170,14 +175,15 @@ class SupportEnv:
         state = self.state_data if self.state_data else {}
         
         # Use the appropriate grader class based on task name
-        if "easy" in task_name:
+        # Match exact task names from openenv.yaml first
+        if task_name == "easy_ticket" or "easy" in task_name.lower():
             grader = EasyGrader()
-        elif "medium" in task_name:
+        elif task_name == "medium_ticket" or "medium" in task_name.lower():
             grader = MediumGrader()
-        elif "hard" in task_name:
+        elif task_name == "hard_ticket" or "hard" in task_name.lower():
             grader = HardGrader()
         else:
-            # Default to easy grader
+            # Default to easy grader for unknown tasks
             grader = EasyGrader()
         
         # Call grade method with action and state
