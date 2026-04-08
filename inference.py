@@ -191,9 +191,8 @@ def run_task(env, task_name, difficulty_keyword, category):
         # Format rewards string
         rewards_str = ",".join([f"{r:.2f}" for r in rewards]) if rewards else "0.00"
         
-        # Emit END line (mandatory format)
-        print(f"[END] success={str(success).lower()} steps={step_counter} rewards={rewards_str} grade={grade_score:.4f}")
-        sys.stdout.flush()
+        # Emit END line (mandatory format) - MUST include task= and score= fields
+        print(f"[END] task={task_name} score={grade_score:.4f} steps={step_counter} success={str(success).lower()}", flush=True)
         
         return success, grade_score, step_counter, rewards
         
@@ -207,9 +206,7 @@ def run_task(env, task_name, difficulty_keyword, category):
         
         # Emit fallback END line
         try:
-            rewards_str = ",".join([f"{r:.2f}" for r in rewards]) if rewards else "0.00"
-            print(f"[END] success=false steps={step_counter} rewards={rewards_str} grade={grade_score:.4f}")
-            sys.stdout.flush()
+            print(f"[END] task={task_name} score={grade_score:.4f} steps={step_counter} success=false", flush=True)
         except Exception:
             pass
         
