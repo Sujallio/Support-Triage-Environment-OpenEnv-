@@ -42,7 +42,7 @@ class EasyGrader:
             score += 0.28
         
         # Ensure score is strictly between 0 and 1
-        return max(0.01, min(0.99, score))
+        return max(0.05, min(0.95, score))
 
 
 class MediumGrader:
@@ -93,7 +93,7 @@ class MediumGrader:
             score += 0.18
         
         # Ensure score is strictly between 0 and 1
-        return max(0.01, min(0.99, score))
+        return max(0.05, min(0.95, score))
 
 
 class HardGrader:
@@ -160,7 +160,7 @@ class HardGrader:
             score += 0.03
         
         # Ensure score is strictly between 0 and 1
-        return max(0.01, min(0.99, score))
+        return max(0.05, min(0.95, score))
 
 
 # Keep old function signatures for backward compatibility with existing code
