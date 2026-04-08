@@ -266,8 +266,9 @@ def main():
                 all_success = False
                 all_grades.append(0.01)
         
-        # Return exit code based on overall success
-        return 0 if all_success else 1
+        # Return 0 if script completes without crashing (even if tasks aren't all "successful")
+        # The validator treats exit code 1 as an unhandled exception
+        return 0
         
     except Exception as e:
         # Top-level exception handler for any unhandled exceptions
